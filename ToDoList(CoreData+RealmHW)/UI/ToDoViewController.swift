@@ -37,6 +37,7 @@ class ToDoViewController: UIViewController {
     
     private func loadGroups() {
         
+        //TODO: fix order of todos
         groups = manager.fetchGroups()
     }
     
@@ -134,7 +135,7 @@ extension ToDoViewController: UITableViewDataSource {
         
         let item = groups[indexPath.section].items[indexPath.row]
         
-        cell.configure(text: item.title)
+        cell.configure(text: item.title, checkmarkState: item.isDone)
         cell.delegate = self
         
         return cell
@@ -190,11 +191,12 @@ extension ToDoViewController: ToDoItemCellDelegate {
         
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         
+        // TODO: Fix index out of range when creating new group during renaming last item
         var item = groups[indexPath.section].items[indexPath.row]
         groups[indexPath.section].items[indexPath.row].title = text
         
         item.title = text
-        manager.updateItem(item)
+        manager.renameItem(item)
     }
     
     func didToggleCheckmark(state: Bool, in cell: ToDoItemCell) {
@@ -205,7 +207,7 @@ extension ToDoViewController: ToDoItemCellDelegate {
         groups[indexPath.section].items[indexPath.row].isDone = state
         
         item.isDone = state
-        manager.updateItem(item)
+        manager.markItem(item)
     }
 }
 

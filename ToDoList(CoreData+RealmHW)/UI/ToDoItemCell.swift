@@ -26,9 +26,10 @@ class ToDoItemCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(text: String) {
+    func configure(text: String, checkmarkState: Bool) {
         
         textField.text = text
+        checkMarkButton.isSelected = checkmarkState
     }
     
     func textFieldBecomeFirstResponder() {
