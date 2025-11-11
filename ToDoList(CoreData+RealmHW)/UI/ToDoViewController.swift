@@ -33,6 +33,7 @@ class ToDoViewController: UIViewController {
         loadGroups()
         setupTableView()
         setupNavigationBar()
+        //TODO: keyboard notification
     }
     
     private func loadGroups() {

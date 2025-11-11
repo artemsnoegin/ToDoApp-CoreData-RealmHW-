@@ -6,7 +6,7 @@
 //
 
 class TestRepository: ToDoRepository {
-
+    
     private var storage = [ToDoGroup]()
     
     init() {
@@ -14,12 +14,17 @@ class TestRepository: ToDoRepository {
         createMockData()
     }
     
+    func fetchGroups() -> [ToDoGroup] {
+        
+        return storage
+    }
+    
     func saveGroup(_ group: ToDoGroup) {
         
         storage.append(group)
     }
     
-    func updateGroup(_ group: ToDoGroup) {
+    func renameGroup(_ group: ToDoGroup) {
         
         guard let groupId = storage.firstIndex(of: group) else { return }
         
@@ -33,11 +38,6 @@ class TestRepository: ToDoRepository {
         storage.remove(at: groupId)
     }
     
-    func fetchGroups() -> [ToDoGroup] {
-        
-        return storage
-    }
-    
     func saveItem(_ item: ToDoItem) {
         
         guard let groupId = storage.firstIndex(where: { $0.id == item.groupId }) else { return }
@@ -45,7 +45,16 @@ class TestRepository: ToDoRepository {
         storage[groupId].items.append(item)
     }
     
-    func updateItem(_ item: ToDoItem) {
+    func renameItem(_ item: ToDoItem) {
+        
+        guard let groupId = storage.firstIndex(where: { $0.id == item.groupId }),
+              let itemId = storage[groupId].items.firstIndex(of: item)
+        else { return }
+        
+        storage[groupId].items[itemId] = item
+    }
+    
+    func markItem(_ item: ToDoItem) {
         
         guard let groupId = storage.firstIndex(where: { $0.id == item.groupId }),
               let itemId = storage[groupId].items.firstIndex(of: item)
@@ -61,14 +70,6 @@ class TestRepository: ToDoRepository {
         else { return }
         
         storage[groupId].items.remove(at: itemId)
-    }
-    
-    func fetchItems(for group: ToDoGroup) -> [ToDoItem] {
-        
-        guard let groupId = storage.firstIndex(where: { $0.id == group.id })
-        else { return [] }
-        
-        return storage[groupId].items
     }
 }
 
