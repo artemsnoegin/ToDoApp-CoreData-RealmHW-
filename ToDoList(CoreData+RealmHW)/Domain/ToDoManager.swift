@@ -16,6 +16,11 @@ class ToDoManager {
         self.repository = repository
     }
     
+    func fetchGroups() -> [ToDoGroup] {
+        
+        repository.fetchGroups()
+    }
+    
     func createGroup(title: String) -> ToDoGroup {
         
         let group = ToDoGroup(title: title)
@@ -24,19 +29,14 @@ class ToDoManager {
         return group
     }
     
-    func updateGroup(_ group: ToDoGroup) {
+    func renameGroup(_ group: ToDoGroup) {
         
-        repository.updateGroup(group)
+        repository.renameGroup(group)
     }
     
     func deleteGroup(_ group: ToDoGroup) {
         
         repository.deleteGroup(group)
-    }
-    
-    func fetchGroups() -> [ToDoGroup] {
-        
-        repository.fetchGroups()
     }
     
     func createItem(title: String, group: ToDoGroup) -> ToDoItem {
@@ -47,18 +47,18 @@ class ToDoManager {
         return item
     }
     
-    func updateItem(_ item: ToDoItem) {
+    func renameItem(_ item: ToDoItem) {
         
-        repository.updateItem(item)
+        repository.renameItem(item)
+    }
+    
+    func markItem(_ item: ToDoItem) {
+        
+        repository.markItem(item)
     }
     
     func deleteItem(_ item: ToDoItem) {
         
         repository.deleteItem(item)
-    }
-    
-    func fetchItems(for group: ToDoGroup) -> [ToDoItem] {
-        
-        repository.fetchItems(for: group)
     }
 }
