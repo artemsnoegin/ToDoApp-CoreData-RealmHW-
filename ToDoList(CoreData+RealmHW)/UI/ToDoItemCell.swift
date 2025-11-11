@@ -90,11 +90,12 @@ extension ToDoItemCell: UITextFieldDelegate {
         return true
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         
-        guard let text = textField.text else { return }
+        guard let text = textField.text else { return true }
         
         delegate?.didEndEditing(text: text, in: self)
+        return true
     }
 }
 
