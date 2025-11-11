@@ -49,6 +49,8 @@ class ToDoViewController: UIViewController {
     
     @objc private func addTapped() {
         
+        tableView.endEditing(true)
+        
         // TODO: Add empty group to table and change its title from there
         
         let alert = UIAlertController(title: "Group", message: nil, preferredStyle: .alert)
@@ -192,7 +194,6 @@ extension ToDoViewController: ToDoItemCellDelegate {
         
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         
-        // TODO: Fix index out of range when creating new group during renaming last item
         var item = groups[indexPath.section].items[indexPath.row]
         groups[indexPath.section].items[indexPath.row].title = text
         
