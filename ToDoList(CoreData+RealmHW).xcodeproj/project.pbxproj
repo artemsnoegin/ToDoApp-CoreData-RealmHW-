@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		D94ADD6A2EC3A45A009D9F11 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D94ADD692EC3A45A009D9F11 /* RealmSwift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		D94ADBB32EBF7462009D9F11 /* ToDoList(CoreData+RealmHW).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ToDoList(CoreData+RealmHW).app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D94ADD6A2EC3A45A009D9F11 /* RealmSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +83,7 @@
 			);
 			name = "ToDoList(CoreData+RealmHW)";
 			packageProductDependencies = (
+				D94ADD692EC3A45A009D9F11 /* RealmSwift */,
 			);
 			productName = "ToDoList(CoreData+RealmHW)";
 			productReference = D94ADBB32EBF7462009D9F11 /* ToDoList(CoreData+RealmHW).app */;
@@ -107,6 +113,9 @@
 			);
 			mainGroup = D94ADBAA2EBF7462009D9F11;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				D94ADD682EC3A45A009D9F11 /* XCRemoteSwiftPackageReference "realm-cocoa" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = D94ADBB42EBF7462009D9F11 /* Products */;
 			projectDirPath = "";
@@ -343,6 +352,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D94ADD682EC3A45A009D9F11 /* XCRemoteSwiftPackageReference "realm-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-cocoa";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D94ADD692EC3A45A009D9F11 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D94ADD682EC3A45A009D9F11 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = RealmSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D94ADBAB2EBF7462009D9F11 /* Project object */;
 }

@@ -12,7 +12,7 @@ class AppContainer {
     
     private init() {
         
-        let repository = TestRepository()
+        let repository = RealmRepository()
         manager = ToDoManager(repository: repository)
     }
 }
