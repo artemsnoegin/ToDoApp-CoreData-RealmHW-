@@ -38,7 +38,6 @@ class ToDoViewController: UIViewController {
     
     private func loadGroups() {
         
-        //TODO: fix order of todos
         groups = manager.fetchGroups()
     }
     
