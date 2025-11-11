@@ -18,7 +18,7 @@ class ToDoManager {
     
     func fetchGroups() -> [ToDoGroup] {
         
-        let groups = repository.fetchGroups().sorted { $0.dateAdded < $1.dateAdded }
+        let groups = repository.fetchGroups().sorted { $0.dateAdded > $1.dateAdded }
         
         let sorted = groups.map { group in
             var g = group
