@@ -44,7 +44,6 @@ class ToDoItemCell: UITableViewCell {
     
     private func setupUI() {
         
-        // TODO: Increase button image size
         checkMarkButton.setImage(UIImage(systemName: "square"), for: .normal)
         checkMarkButton.setImage(UIImage(systemName: "checkmark.square.fill"), for: .selected)
         checkMarkButton.addTarget(self, action: #selector(markAsDone), for: .touchUpInside)
@@ -65,8 +64,6 @@ class ToDoItemCell: UITableViewCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-//            checkMarkButton.widthAnchor.constraint(equalToConstant: 30),
-//            checkMarkButton.heightAnchor.constraint(equalToConstant: 30),
             stackView.heightAnchor.constraint(equalToConstant: 40),
             stackView.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 8),
             stackView.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: 16),

@@ -69,7 +69,19 @@ class ToDoViewController: UIViewController {
                 newGroup.items.append(newItem)
                 
                 self.groups.insert(newGroup, at: 0)
-                self.tableView.reloadData()
+                self.tableView.performBatchUpdates({
+                    
+                    self.tableView.insertSections(IndexSet(integer: 0), with: .automatic)
+                    
+                }) { _ in
+                    self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+                                    
+                    if let cell = self.tableView.cellForRow(
+                        at: IndexPath(row: 0, section: 0)) as? ToDoItemCell {
+                        
+                        cell.textFieldBecomeFirstResponder()
+                    }
+                }
             }
         }
         alert.addAction(add)
