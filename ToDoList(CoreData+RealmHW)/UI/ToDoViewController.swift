@@ -181,10 +181,13 @@ extension ToDoViewController: ToDoItemCellDelegate {
             
             let newItem = manager.createItem(title: "", group: groups[indexPath.section])
             groups[indexPath.section].items.append(newItem)
-            tableView.reloadData()
             
-            // TODO: disable keyboard disappearing during responder change
             let newIndexPath = IndexPath(row: indexPath.row + 1, section: indexPath.section)
+            
+            tableView.performBatchUpdates {
+                    tableView.insertRows(at: [newIndexPath], with: .automatic)
+                }
+            
             let cell = tableView.cellForRow(at: newIndexPath) as! ToDoItemCell
             cell.textFieldBecomeFirstResponder()
         }
