@@ -29,7 +29,7 @@ class RealmRepository: ToDoRepository {
     
     func saveGroup(_ group: ToDoGroup) {
         
-        let entity = ToDoGroupEntity(id: group.id, title: group.title)
+        let entity = ToDoGroupEntity(id: group.id, title: group.title, dateAdded: group.dateAdded)
         
         do {
             try realm.write {
@@ -75,7 +75,7 @@ class RealmRepository: ToDoRepository {
         
         if let groupEntity = realm.objects(ToDoGroupEntity.self).filter("id == %@", item.groupId).first {
             
-            let itemEntity = ToDoItemEntity(id: item.id, title: item.title, isDone: item.isDone)
+            let itemEntity = ToDoItemEntity(id: item.id, title: item.title, dateAdded: item.dateAdded, isDone: item.isDone)
             
             do {
                 try realm.write {
@@ -140,7 +140,7 @@ extension RealmRepository {
         
         entities.map { entity in
             
-            ToDoGroup(id: entity.id, title: entity.title, items: mapItems(entities: entity.items, groupId: entity.id))
+            ToDoGroup(id: entity.id, title: entity.title, dateAdded: entity.dateAdded, items: mapItems(entities: entity.items, groupId: entity.id))
         }
     }
     
@@ -148,7 +148,7 @@ extension RealmRepository {
         
         entities.map { entity in
             
-            ToDoItem(id: entity.id , title: entity.title, isDone: entity.isDone, groupId: groupId)
+            ToDoItem(id: entity.id , title: entity.title, dateAdded: entity.dataAdded, isDone: entity.isDone, groupId: groupId)
         }
     }
 }
