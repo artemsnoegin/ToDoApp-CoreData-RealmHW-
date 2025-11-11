@@ -64,6 +64,7 @@ class CoreDataRepository: ToDoRepository {
         
         groupEntity.id = group.id
         groupEntity.title = group.title
+        groupEntity.dateAdded = group.dateAdded
         groupEntity.items = []
         
         saveContext()
@@ -93,6 +94,7 @@ class CoreDataRepository: ToDoRepository {
         
         itemEntity.id = item.id
         itemEntity.title = item.title
+        itemEntity.dateAdded = item.dateAdded
         itemEntity.isDone = item.isDone
         
         if let groupEntity = fetchGroup(id: item.groupId) {
@@ -164,6 +166,7 @@ extension CoreDataRepository {
         
         return entities.map { entityGroup in
             ToDoGroup(id: entityGroup.id, title: entityGroup.title,
+                      dateAdded: entityGroup.dateAdded,
                       items: mapItems(entities: entityGroup.items))
         }
     }
@@ -173,6 +176,7 @@ extension CoreDataRepository {
         return (entities as! Set<ToDoItemEntity>).map { itemEntity in
             
             ToDoItem(id: itemEntity.id, title: itemEntity.title,
+                     dateAdded: itemEntity.dateAdded,
                      isDone: itemEntity.isDone, groupId: itemEntity.group.id)
         }
     }

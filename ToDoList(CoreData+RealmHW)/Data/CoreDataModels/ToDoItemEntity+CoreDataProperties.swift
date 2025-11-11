@@ -2,7 +2,7 @@
 //  ToDoItemEntity+CoreDataProperties.swift
 //  ToDoList(CoreData+RealmHW)
 //
-//  Created by Артём Сноегин on 10.11.2025.
+//  Created by Артём Сноегин on 12.11.2025.
 //
 //
 
@@ -19,8 +19,9 @@ extension ToDoItemEntity {
     }
 
     @NSManaged public var id: UUID
-    @NSManaged public var title: String
     @NSManaged public var isDone: Bool
+    @NSManaged public var title: String
+    @NSManaged public var dateAdded: Date
     @NSManaged public var group: ToDoGroupEntity
 
 }
