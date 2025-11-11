@@ -7,15 +7,14 @@
 
 protocol ToDoRepository {
     
-    func saveGroup(_ group: ToDoGroup)
-    func updateGroup(_ group: ToDoGroup)
-    func deleteGroup(_ group: ToDoGroup)
-    
     func fetchGroups() -> [ToDoGroup]
     
-    func saveItem(_ item: ToDoItem)
-    func updateItem(_ item: ToDoItem)
-    func deleteItem(_ item: ToDoItem)
+    func saveGroup(_ group: ToDoGroup)
+    func renameGroup(_ group: ToDoGroup)
+    func deleteGroup(_ group: ToDoGroup)
     
-    func fetchItems(for group: ToDoGroup) -> [ToDoItem]
+    func saveItem(_ item: ToDoItem)
+    func renameItem(_ item: ToDoItem)
+    func markItem(_ item: ToDoItem)
+    func deleteItem(_ item: ToDoItem)
 }

@@ -12,7 +12,7 @@ class AppContainer {
     
     private init() {
         
-        let repository = TestRepository()
+        let repository = CoreDataRepository()
         manager = ToDoManager(repository: repository)
     }
 }
