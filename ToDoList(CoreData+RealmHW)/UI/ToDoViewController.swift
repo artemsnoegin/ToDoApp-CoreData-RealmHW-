@@ -33,7 +33,7 @@ class ToDoViewController: UIViewController {
         loadGroups()
         setupTableView()
         setupNavigationBar()
-        //TODO: keyboard notification
+        subscribeNotification()
     }
     
     private func loadGroups() {
@@ -48,6 +48,8 @@ class ToDoViewController: UIViewController {
     }
     
     @objc private func addTapped() {
+        
+        tableView.endEditing(true)
         
         // TODO: Add empty group to table and change its title from there
         
@@ -67,7 +69,19 @@ class ToDoViewController: UIViewController {
                 newGroup.items.append(newItem)
                 
                 self.groups.insert(newGroup, at: 0)
-                self.tableView.reloadData()
+                self.tableView.performBatchUpdates({
+                    
+                    self.tableView.insertSections(IndexSet(integer: 0), with: .automatic)
+                    
+                }) { _ in
+                    self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+                                    
+                    if let cell = self.tableView.cellForRow(
+                        at: IndexPath(row: 0, section: 0)) as? ToDoItemCell {
+                        
+                        cell.textFieldBecomeFirstResponder()
+                    }
+                }
             }
         }
         alert.addAction(add)
@@ -95,6 +109,57 @@ class ToDoViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    private func subscribeNotification() {
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow(_:)),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide(_:)),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
+              let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval
+        else { return }
+        
+        tableView.contentInset.bottom = keyboardFrame.height - view.safeAreaInsets.bottom
+        tableView.verticalScrollIndicatorInsets.bottom = keyboardFrame.height - view.safeAreaInsets.bottom
+
+        UIView.animate(withDuration: duration, delay: 0, options: [.curveEaseIn]) {
+            
+            self.view.layoutIfNeeded()
+        }
+    }
+
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double
+        else { return }
+        
+        tableView.contentInset.bottom = 0
+        tableView.verticalScrollIndicatorInsets.bottom = 0
+
+        UIView.animate(withDuration: duration, delay: 0, options: [.curveEaseIn]) {
+            
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    deinit {
+        
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
@@ -179,12 +244,17 @@ extension ToDoViewController: ToDoItemCellDelegate {
             
             let newItem = manager.createItem(title: "", group: groups[indexPath.section])
             groups[indexPath.section].items.append(newItem)
-            tableView.reloadData()
             
-            // TODO: disable keyboard disappearing during responder change
             let newIndexPath = IndexPath(row: indexPath.row + 1, section: indexPath.section)
+            
+            tableView.performBatchUpdates {
+                    tableView.insertRows(at: [newIndexPath], with: .automatic)
+                }
+            
             let cell = tableView.cellForRow(at: newIndexPath) as! ToDoItemCell
             cell.textFieldBecomeFirstResponder()
+            
+            tableView.scrollToRow(at: newIndexPath, at: .bottom, animated: true)
         }
     }
     
@@ -192,7 +262,6 @@ extension ToDoViewController: ToDoItemCellDelegate {
         
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         
-        // TODO: Fix index out of range when creating new group during renaming last item
         var item = groups[indexPath.section].items[indexPath.row]
         groups[indexPath.section].items[indexPath.row].title = text
         

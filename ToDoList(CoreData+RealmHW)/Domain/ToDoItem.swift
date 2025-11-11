@@ -11,13 +11,15 @@ struct ToDoItem: Identifiable, Equatable {
     
     let id: UUID
     var title: String
+    var dateAdded: Date
     var isDone: Bool
     let groupId: UUID
     
-    init(id: UUID = UUID(), title: String, isDone: Bool = false, groupId: UUID) {
+    init(id: UUID = UUID(), title: String, dateAdded: Date = .now, isDone: Bool = false, groupId: UUID) {
         
         self.id = id
         self.title = title
+        self.dateAdded = dateAdded
         self.isDone = isDone
         self.groupId = groupId
     }
