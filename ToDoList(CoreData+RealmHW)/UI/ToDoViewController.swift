@@ -33,7 +33,7 @@ class ToDoViewController: UIViewController {
         loadGroups()
         setupTableView()
         setupNavigationBar()
-        //TODO: keyboard notification
+        subscribeNotification()
     }
     
     private func loadGroups() {
@@ -97,6 +97,57 @@ class ToDoViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    private func subscribeNotification() {
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow(_:)),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide(_:)),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
+              let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval
+        else { return }
+        
+        tableView.contentInset.bottom = keyboardFrame.height - view.safeAreaInsets.bottom
+        tableView.verticalScrollIndicatorInsets.bottom = keyboardFrame.height - view.safeAreaInsets.bottom
+
+        UIView.animate(withDuration: duration, delay: 0, options: [.curveEaseIn]) {
+            
+            self.view.layoutIfNeeded()
+        }
+    }
+
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double
+        else { return }
+        
+        tableView.contentInset.bottom = 0
+        tableView.verticalScrollIndicatorInsets.bottom = 0
+
+        UIView.animate(withDuration: duration, delay: 0, options: [.curveEaseIn]) {
+            
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    deinit {
+        
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
@@ -190,6 +241,8 @@ extension ToDoViewController: ToDoItemCellDelegate {
             
             let cell = tableView.cellForRow(at: newIndexPath) as! ToDoItemCell
             cell.textFieldBecomeFirstResponder()
+            
+            tableView.scrollToRow(at: newIndexPath, at: .bottom, animated: true)
         }
     }
     
